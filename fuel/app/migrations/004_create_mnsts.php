@@ -16,9 +16,6 @@ class Create_mnsts
 			'C' => array('constraint' => 11, 'type' => 'int'),
 			'D' => array('constraint' => 11, 'type' => 'int'),
 			'S' => array('constraint' => 11, 'type' => 'int'),
-			'created_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
-			'updated_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
-
 		), array('id'));
 	}
 

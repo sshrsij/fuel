@@ -12,8 +12,6 @@ class Model_Mnst extends \Orm\Model
 		'C',
 		'D',
 		'S',
-		'created_at',
-		'updated_at',
 	);
 
 	protected static $_observers = array(

@@ -12,6 +12,7 @@ return array(
 		'default' => array(
 				'type' => 'mysql',
 				'profiling' => 'true',
+				'table_prefix' =>'',
 				'connection'  => array(
 						'database'   => 'cidb',						
 						'hostname'        => 'localhost',
