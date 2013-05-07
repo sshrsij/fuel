@@ -83,7 +83,9 @@ return array(
 	// 'language'           => 'en', // Default language
 	// 'language_fallback'  => 'en', // Fallback language when file isn't available for default language
 	// 'locale'             => 'en_US', // PHP set_locale() setting, null to not set
-
+	'language' => 'ja',
+	'locale' => null,
+	'default_timezone' => 'Asia/Tokyo',
 	/**
 	 * Internal string encoding charset
 	 */
