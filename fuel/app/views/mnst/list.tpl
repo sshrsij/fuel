@@ -24,7 +24,9 @@
 	</thead>
 	<tbody>
 		{foreach from=$content item=item}
-		<tr><td>{$item->id}</td>
+		<tr>
+		<td>
+		</td>
 		<td>{$item->H}</td><td>{$item->A}</td><td>{$item->B}</td>
 		<td>{$item->C}</td><td>{$item->D}</td><td>{$item->S}</td>
 		</tr>

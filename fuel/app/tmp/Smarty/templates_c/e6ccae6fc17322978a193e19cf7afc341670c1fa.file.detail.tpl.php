@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-07 20:33:21
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-08 12:01:56
          compiled from "C:\Users\Public\Documents\XAMPP\htdocs\fuel\fuel\app\views\mnst\detail.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:237215188c998e5e9c5-49822841%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e6ccae6fc17322978a193e19cf7afc341670c1fa' => 
     array (
       0 => 'C:\\Users\\Public\\Documents\\XAMPP\\htdocs\\fuel\\fuel\\app\\views\\mnst\\detail.tpl',
-      1 => 1367926398,
+      1 => 1367982110,
       2 => 'file',
     ),
   ),
@@ -41,7 +41,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	</div><!-- /header -->
 
 	<div data-role="content">		       
-	        <div id="container" style="width: 400px; height: 400px; margin: 0 auto"></canvas>
+	        <div id="container" style="width: 300px; height: 300px; "></div>
 	</div><!-- /content -->
 
 </div><!-- /page -->
@@ -58,49 +58,52 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 ;
 	var sx=<?php echo $_smarty_tpl->tpl_vars['content']->value->S;?>
 ;
-	var legends=['H','A','B','C','D','S'];
-	var pname='<?php echo $_smarty_tpl->tpl_vars['content']->value->name;?>
+	
+	var pname='No<?php echo $_smarty_tpl->tpl_vars['content']->value->id;?>
 ';
+    	 
+    var legends=['H','B','A','S','C','D'];
+    var dataset=[hx,bx,ax,sx,cx,dx];
     
 $(function () {  
 	var chart= new Highcharts.Chart({        
 	    chart: { 
-	    	type: 'area',
+		    polar:true,
 	    	renderTo:'container',
 	    },
-	    title: { text: 'Highcharts Polar Chart'},
-	    	    
+        legend: { enabled: false},
+	    title: { text: pname},	    	    
 	    pane: {
 	        startAngle: 0,
 	        endAngle: 360
 	    },
-	    
 	    xAxis: {
 		    tickInterval: 60,
 	        min: 0,
 	        max: 360,
 	        labels:{
 	        	formatter:function(){
-		        	return legends[ (this.value/60)%6 ] ;
+		        	return legends[(this.value/60)];
 	        	}
 	        }
 	    },	        
 	    
 	    yAxis: {
+		    tickInterval:50,
 	        min: 0,
-	        max:200
-	    },	    
+	        max:150,
+		 },	    
 	    tooltip: {        
         	formatter: function () {
 				return 	'<b>' + 
 							this.series.name + '</b><br/>' +
-    						legends[(this.x/60)] + ': ' + this.y ;                        
+    						legends[(((this.x +30+360)%360) /60)] + ': ' + this.y ;                        
                }
          },
                     
 	    plotOptions: {
 	        series: {
-	            pointStart: 0,
+	            pointStart: -30,
 	            pointInterval: 60
 	        },
 	        column: {
@@ -112,7 +115,7 @@ $(function () {
 	    series: [{
 	        type: 'column',
 	        name: pname,
-	        data: [hx,ax,bx,cx,dx,sx],
+	        data: dataset,
 	        pointPlacement: 'between'
 	    }],
 	});

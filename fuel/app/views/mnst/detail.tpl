@@ -14,7 +14,7 @@
 	</div><!-- /header -->
 
 	<div data-role="content">		       
-	        <div id="container" style="width: 400px; height: 400px; margin: 0 auto"></canvas>
+	        <div id="container" style="width: 300px; height: 300px; "></div>
 	</div><!-- /content -->
 
 </div><!-- /page -->
@@ -25,48 +25,51 @@
 	var cx={$content->C};
 	var dx={$content->D};
 	var sx={$content->S};
-	var legends=['H','A','B','C','D','S'];
-	var pname='{$content->name}';
-    {literal}
+	
+	var pname='No{$content->id}';
+    {literal}	 
+    var legends=['H','B','A','S','C','D'];
+    var dataset=[hx,bx,ax,sx,cx,dx];
+    
 $(function () {  
 	var chart= new Highcharts.Chart({        
 	    chart: { 
-	    	type: 'area',
+		    polar:true,
 	    	renderTo:'container',
 	    },
-	    title: { text: 'Highcharts Polar Chart'},
-	    	    
+        legend: { enabled: false},
+	    title: { text: pname},	    	    
 	    pane: {
 	        startAngle: 0,
 	        endAngle: 360
 	    },
-	    
 	    xAxis: {
 		    tickInterval: 60,
 	        min: 0,
 	        max: 360,
 	        labels:{
 	        	formatter:function(){
-		        	return legends[ (this.value/60)%6 ] ;
+		        	return legends[(this.value/60)];
 	        	}
 	        }
 	    },	        
 	    
 	    yAxis: {
+		    tickInterval:50,
 	        min: 0,
-	        max:200
-	    },	    
+	        max:150,
+		 },	    
 	    tooltip: {        
         	formatter: function () {
 				return 	'<b>' + 
 							this.series.name + '</b><br/>' +
-    						legends[(this.x/60)] + ': ' + this.y ;                        
+    						legends[(((this.x +30+360)%360) /60)] + ': ' + this.y ;                        
                }
          },
                     
 	    plotOptions: {
 	        series: {
-	            pointStart: 0,
+	            pointStart: -30,
 	            pointInterval: 60
 	        },
 	        column: {
@@ -78,7 +81,7 @@ $(function () {
 	    series: [{
 	        type: 'column',
 	        name: pname,
-	        data: [hx,ax,bx,cx,dx,sx],
+	        data: dataset,
 	        pointPlacement: 'between'
 	    }],
 	});

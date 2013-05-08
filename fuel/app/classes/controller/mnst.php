@@ -25,8 +25,17 @@ class Controller_Mnst extends Controller_Template
 		echo Asset::css('jquery.mobile-1.3.1.css');
 		echo Asset::js('jquery-1.9.1.js');
 		echo Asset::js('jquery.mobile-1.3.1.js');		
-//		echo Asset::js('highchart/highcharts.js');
+		echo Asset::js('highchart/highcharts.js');
+		echo Asset::js('highchart/highcharts-more.js');
 		return Response::forge(View_Smarty::forge('mnst/detail',$data));
+	}
+	public function action_exam()
+	{
+		$data=array();
+		echo Asset::js('jquery-1.9.1.js');
+		echo Asset::js('highchart/highcharts.js');
+		echo Asset::js('highchart/highcharts-more.js');
+		return Response::forge(View::forge('mnst/exam',$data));		
 	}
 
 }
