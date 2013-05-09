@@ -16,7 +16,15 @@ class Controller_Mnst extends Controller_Template
 
 		return Response::forge(View_Smarty::forge('mnst/list',$data));
 	}
-
+	
+	public function action_stat($no)
+	{
+		echo Asset::css('jquery.mobile-1.3.1.css');
+		echo Asset::js('jquery-1.9.1.js');
+		echo Asset::js('jquery.mobile-1.3.1.js');
+		
+	}
+	
 	public function action_detail($no)
 	{
 		$data=array();
