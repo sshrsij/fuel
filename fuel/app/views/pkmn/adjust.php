@@ -1,212 +1,330 @@
 <html>
-<style type="text/css"> <!--
-.input{
-width:60px;
-height:30px;
+<style>
+<!--
+input{
+	vertical-align:middle;
 }
- --></style>
-<body>
-<div style="">
-<div id="container" style="width: 300px; height: 500px; "></div>
-</div>
-<div style="position:relative; top:-400; left:300;">
-<form>
-	<select id="spec" size="2">	
-	</select>
-	<br/>
-	<hr/>
-	<table>
-		<tr>
-			<td></td><td>RV</td><td>IV</td><td>EV</td>
-		</tr>
-		<tr>
-			<td>H</td>
-			<td><input type="text" id='rh' class='input' maxlength="3" /></td>
-			<td><input type="text" id='ih' class='input' maxlength="2" /></td>
-			<td><input type="text" id='eh' class='input' maxlength="3" /></td>
-		</tr>
-		<tr>
-			<td>A</td>
-			<td><input type="text" id='ra' class='input' maxlength="3" /></td>
-			<td><input type="text" id='ia' class='input' maxlength="2" /></td>
-			<td><input type="text" id='ea' class='input' maxlength="3" /></td>
-		</tr>
-		<tr>
-			<td>B</td>
-			<td><input type="text" id='rb' class='input' maxlength="3" /></td>
-			<td><input type="text" id='ib' class='input' maxlength="2" /></td>
-			<td><input type="text" id='eb' class='input' maxlength="3" /></td>
-		</tr>
-		<tr>
-			<td>C</td>
-			<td><input type="text" id='rc' class='input' maxlength="3" /></td>
-			<td><input type="text" id='ic' class='input' maxlength="2" /></td>
-			<td><input type="text" id='ec' class='input' maxlength="3" /></td>
-		</tr>
-		<tr>
-			<td>D</td>
-			<td><input type="text" id='rd' class='input' maxlength="3" /></td>
-			<td><input type="text" id='id' class='input' maxlength="2" /></td>
-			<td><input type="text" id='ed' class='input' maxlength="3" /></td>
-		</tr>		
-		<tr>
-			<td>S</td>
-			<td><input type="text" id='rs' class='input' maxlength="3" /></td>
-			<td><input type="text" id='is' class='input' maxlength="2" /></td>
-			<td><input type="text" id='es' class='input' maxlength="3" /></td>
-		</tr>		
-		</table>
-	<br/>
-	<input type="text" id='nametext' value="""/>
-	<input type="button" id='add' value="Add" onclick="addStatus();"/>	
-	<br/>
-	</form>
-</div>
+#dleft{
+	float:left;
+	width:15em;
 
-<script> /*status class*/
-var Status=function()
-{
-	this.efforts=[0,0,0,0,0,0];
-	this.races =[0,0,0,0,0,0];		
-	this.seeds =[0,0,0,0,0,0];
-	this.lv=50;
-	this.title="a";
-	this.guid=GUID();
-	/*実数値*/
-	this.array=function()
-	{
-		var hval = ( ((this.races[0]*2+this.seeds[0]+this.efforts[0]/4)*this.lv/100) |0) +10+this.lv;
-		var aval = ( ( ((this.races[1]*2+this.seeds[1]+this.efforts[1]/4)*this.lv/100) +5) |0) *1;
-		var bval = ( ( ((this.races[2]*2+this.seeds[2]+this.efforts[2]/4)*this.lv/100) +5) |0)*1;
-		var cval = ( ( ((this.races[3]*2+this.seeds[3]+this.efforts[3]/4)*this.lv/100) +5) |0)*1;
-		var dval = ( ( ((this.races[4]*2+this.seeds[4]+this.efforts[4]/4)*this.lv/100) +5) |0)*1;
-		var sval = ( ( ((this.races[5]*2+this.seeds[5]+this.efforts[5]/4)*this.lv/100) +5) |0)*1;
- 		return [hval,aval,bval,cval,dval,sval];
-	};
-	/*html要素化*/
-	this.html=function()
-	{
-		return '<option onclick="selectfromArray( \''+this.guid+'\' );" value="'+this.guid+'">'+this.title+'</option>';	
-	};
-	this.random=function()
-	{
-		for(var idx=0;idx<this.seeds.length;idx++){
-			this.seeds[idx] =(Math.random()*32) | 0;
-			this.races[idx] =(Math.random()*150) | 0;
-		}
-	}
 }
-</script>
-<script>
-var sArray=[];
-/**/
-function selectfromArray(guid)
-{
-	var selected=-1;
-	for(var idx=0;idx<sArray.length;idx++){
-		if(guid==sArray[idx].guid)
-			{			
-				selected=idx;
-			}
-	}
-	if(selected<0){return;}
-	
+#dcenter{
+	float:left;
+	width:20em;
+	border-style:solid;
+	border-width:0px 0px 0px 1px; 	
+	padding-left:1em;
 }
-var addcnt=0;
-/**値の更新*/
-function addStatus()
-{
-	var newone=new Status();		
-	newone.random();
+#dright{
+	float:left;
+	width:20em;
+	border-style:solid;
+	border-width:0px 0px 0px 1px; 	
+}
+#selection {
+	float: left;
+}
+#s_adjusted{
+	width: 12em;
+}
+#s_pkmn {
+	width: 8em;
+}
 
-	newone.title= ($("#nametext").val().length <=0 )  ?  
-			newone.title+"("+(++addcnt)+")" :
-			$("#nametext").val();	
-	chart.addSeries({
-		stack : newone.guid,
-		name: newone.title , 
-		data: newone.array() });
-	$("#spec").append(newone.html());
-	sArray.push(newone);
-	updateStatus(newone);
+#s_personal {
+	width: 6em;
 }
-function updateStatus(newone)
-{
-		inputToText(newone);
+
+#container {
+	width: 300px;
+	height: 500px;
+}
+
+.rowhead {
+	width: 3em;
+	margin-top:-5px;
+}
+.rtext{
+width: 3em;
+}
+.itext {
+	width: 3em;
+}
+
+.etext {
+	width: 4em;
+}
+-->
+</style>
+<script>/*広域変数*/
+var globals={
+		list:[],
+		personal:[],
+		tmp:[0,0,0,0,0,0],
 };
-function inputToText(newone)
-{	
-	$("#rh").val(newone.races[0]);	$("#ih").val(newone.seeds[0]);	$("#eh").val(newone.efforts[0]);
-	$("#ra").val(newone.races[1]);	$("#ia").val(newone.seeds[1]);	$("#ea").val(newone.efforts[1]);
-	$("#rb").val(newone.races[2]);	$("#ib").val(newone.seeds[2]);	$("#eb").val(newone.efforts[2]);
-	$("#rc").val(newone.races[3]);	$("#ic").val(newone.seeds[3]);	$("#ec").val(newone.efforts[3]);
-	$("#rd").val(newone.races[4]);	$("#id").val(newone.seeds[4]);	$("#ed").val(newone.efforts[4]);
-	$("#rs").val(newone.races[5]);	$("#is").val(newone.seeds[5]);	$("#es").val(newone.efforts[5]);
+</script>
+<script> //class
+var adjusted=function(){
+	this.races	=	[0,0,0,0,0,0];
+	this.indis	=	[0,0,0,0,0,0];
+	this.efforts=	[0,0,0,0,0,0];
+	this.lv=50;
+	this.pkmnID=1;
+	this.skillID=1;
+}
+/*H実数値*/
+function hval(rh,ih,eh,lv)
+{
+	if(rh<=1){return 1;}
+	return (((rh*2+ih%32+(eh%256)/4) * lv / 100) |0) +10+ lv;
+}
+/*ABCDS実数値*/
+function sval(rv,iv,ev,lv,bv)
+{
+	var val=( rv*2+iv%32+(ev%256)/4)*lv/100;
+	return ((val+5)*bv) |0;
 }
 </script>
-<script>
-var chart;
-$(function () {
-	
-	chart= new Highcharts.Chart({
-        chart: {
-        	renderTo:'container',
-        	type: 'bar'
-        },
-        title: {
-            text: 'Historic World Population by Region'
-        },
-        subtitle: {
-            text: 'Source: Wikipedia.org'
-        },
-        xAxis: {
-            categories: ['H','A','B','C','D','S'],
-            title: {
-                text: null
-            }
-        },
-        yAxis: {
-            min: 0,
-            labels: {
-                overflow: 'justify'
-            }
-        },
-        tooltip: {
-        },
-        plotOptions: {
-            bar: {
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'top',
-            x: 200,
-            y: 210,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: '#FFFFFF',
-            shadow: true
-        },
-        credits: {
-            enabled: false
-        },
-        series: []
-    });
-    var first=new Status();
-	first.races=[
-			<?php echo $content->H;?>,
-			<?php echo $content->A;?>,                    	
-            <?php echo $content->B;?>,
-            <?php echo $content->C;?>,
-            <?php echo $content->D;?>,                    	
-            <?php echo $content->S;?>]
-    updateStatus(first);
-});
+
+<script>//pkmn selected
+function updatePkmn(pkmn){
+	$("#rH").val(pkmn.H);		
+	$("#rA").val(pkmn.A);		
+	$("#rB").val(pkmn.B);		
+	$("#rC").val(pkmn.C);		
+	$("#rD").val(pkmn.D);		
+	$("#rS").val(pkmn.S);	
+	updateTable();
+}
+function updateTable(){
+	var ary=['H','A','B','C','D','S'];
+	$.each(ary,function(){
+		var tmp;
+		/*iv*/
+		tmp=$("#i"+this).val();
+		if(! tmp){tmp=31;}
+		$("#i"+this).val( tmp%32);
+		/*ev*/		
+		tmp=$("#e"+this).val();
+		if(! tmp){tmp=0;}
+		$("#e"+this).val( tmp%256);
+	});
+
+	var pr=[1,1,1,1,1];
+	var count=-1;
+	$("#resH").html( hval(	$("#rH").val(),$("#iH").val(),$("#eH").val(),50));
+	$.each(ary,function(){
+		if(count==-1)
+		{
+			++count;
+			return true;
+		}
+		$("#res"+this).html(
+				sval(	$("#r"+this).val(), 	$("#i"+this).val(), 	$("#e"+this).val(), 50,	pr[count])
+		);
+		count++;
+	});
+
+	globals["tmp"]=[
+	            	parseInt($("#resH").html()),   	            			
+	    	        parseInt($("#resB").html()),
+	    	        parseInt($("#resA").html()),
+	    	        parseInt($("#resS").html()),
+	    	        parseInt($("#resC").html()),
+	    	        parseInt($("#resD").html())];
+	var highchart=$('#container').highcharts();
+//	highchart.showLoading();	
+	highchart.series[0].setData(globals["tmp"], true);	
+	highchart.hideLoading();
+}
+function onclickedButton(target,value)
+{
+	$.each(
+			document.getElementsByName("rowhead"),
+			function(){
+				if(! this.checked){return true;}
+				$("#"+target+this.id.charAt(5)).val(value);
+				updateTable();
+				return false;
+		});
+
+}
 </script>
 
+<script> //event method
+function onSelectedPkmn(no)
+{
+	 $.ajax({
+		 type:'GET',
+		 url:'/fuel/public/api/pkmnbyid/'+no,
+		 datatype:'json',
+		 success:function(msg){
+ 			 updatePkmn(msg.val);
+		 },
+		 error:function(msg){
+			 alert(msg);
+		 },
+	});
+}
+</script>
+
+<script>//chart
+function chart(){
+var legends=['H','B','A','S','C','D'];
+var dataset=[100,136,80,90,80,80];
+var pname='sample';
+ new Highcharts.Chart({        
+    chart: { 
+	    polar:true,
+    	renderTo:'container',
+    },
+    legend: { enabled: false},
+    title: { text: pname},	    	    
+    pane: {
+        startAngle: 0,
+        endAngle: 360
+    },
+    xAxis: {
+	    tickInterval: 60,
+        min: 0,
+        max: 360,
+        labels:{
+        	formatter:function(){
+	        	return legends[(this.value/60)];
+        	}
+        }
+    },	        
+    
+    yAxis: {
+	    tickInterval:50,
+        min: 0,
+        max:150,
+	 },	    
+    tooltip: {        
+    	formatter: function () {
+			return 	'<b>' + 
+						this.series.name + '</b><br/>' +
+						legends[(((this.x +30+360)%360) /60)] + ': ' + this.y ;                        
+           }
+     },
+                
+    plotOptions: {
+        series: {
+            pointStart: -30,
+            pointInterval: 60
+        },
+        column: {
+            pointPadding: 0,
+            groupPadding: 0
+        }
+    },
+    
+    series: [{
+        type: 'column',
+        name: pname,
+        data: dataset,
+        pointPlacement: 'between'
+    }],
+});
+}
+</script>
+
+
+<script>//起動時
+$(function(){
+	initPkmnlist();
+	initPersonalitylist();
+	chart();
+});
+/*初期化 pkmnリスト*/
+function initPkmnlist()
+{
+	 $.ajax({
+		 type:'GET',
+		 url:'/fuel/public/api/pkmnall',
+		 datatype:'json',
+		 success:function(msg){
+			$.each(msg.val , function(){
+				 var opt=$('<option onclick="onSelectedPkmn('+this.id+')">'+this.name+'</option>');
+				 opt.attr("value",this.id);
+				 $("#s_pkmn").append(opt);
+			 });
+		 },
+		 error:function(msg){
+			 alert(msg);
+		 },
+	});
+}
+
+/*初期化 personal*/
+function initPersonalitylist(){
+	$.ajax({
+		 type:'GET',
+		 url:'/fuel/public/api/personalityall',
+		 datatype:'json',
+		 success:function(msg){
+			$.each(msg.val , function(){
+				 var opt=$("<option>"+this.name+"</option>");
+				 opt.attr("value",this.id);
+				 $("#s_personal").append(opt);
+			 });
+		 },
+		 error:function(msg){
+			 alert(msg);
+		 },
+	});
+}
+</script>
+
+
+<body>
+	<form id="selection">
+		<div id="dleft">
+			<select id="s_pkmn" size="2"></select><br /> <select id="s_adjusted" size="4"></select>
+		</div>
+		<div id="dcenter">
+			<div id="rb_skill" style="display: none;">
+				<input type="radio" name="skill" id="skill1" value="1" /> <input
+					type="radio" name="skill" id="skill2" value="2" /> <input
+					type="radio" name="skill" id="skill3" value="3" />
+			</div>
+			<select id="s_personal" size="2"></select><br />
+			<div id="easyinput">
+				<input type="button" value="Iv->0" onclick="onclickedButton('i',0);"/>
+				<input type="button" value="Iv->31" onclick="onclickedButton('i',31);" />
+				<input type="button" value="Ev->0" onclick="onclickedButton('e',0);" />
+				<input type="button" value="Ev->252" onclick="onclickedButton('e',252);"/>
+			</div>
+			<table>
+				<th>
+				
+				<td><p class="label">Rv</p>
+				</td>
+				<td><p class="label">Iv</p>
+				</td>
+				<td><p class="label">Ev</p>
+				</td>
+				<td><p class="label">Result</p>
+				</td>
+				</th>
+				<?php 
+				$ary=['H','A','B','C','D','S'];
+				foreach ($ary as $elem){
+				echo	sprintf(	'<tr><!-- %s -->',$elem);
+				echo sprintf(	'	<td><input type="radio" name="rowhead" id="lable%s" class ="label rowhead">%s</td>',$elem,$elem);
+				echo sprintf(	'	<td><input type ="text" id="r%s" class="rtext" readonly="readonly"/></td>',$elem);
+				echo sprintf(	'	<td><input type ="text" id="i%s" class ="itext" /></td>',$elem);
+				echo sprintf(	'	<td><input type ="text" id="e%s" class ="etext" /></td>',$elem);
+				echo sprintf(	'	<td><p id="res%s" class="resp" /></td>',$elem);
+				echo sprintf( '</tr>');
+			}
+			?>
+			</table>
+		</div>
+		<div id="dright">
+			<div id="container"></div>
+		</div>
+	</form>
 </body>
 </html>

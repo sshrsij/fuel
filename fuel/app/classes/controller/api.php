@@ -4,11 +4,25 @@ class Controller_api extends Controller_Rest
 {
 	protected $format='json';
 	
-	public function get_suggest()
+	public function get_personalityall()
 	{
 		$this->response(
 				array(
-						'val' => array(1,2,3,4,5)
+						'val' => Model_Peronality::find('all')
+				));
+	}
+	public function get_pkmnall()
+	{
+		$this->response(
+				array(
+						'val' => Model_Pkmn::find('all')
+				));
+	}
+	public function get_pkmnbyid($id)
+	{
+		$this->response(
+				array(
+						'val' => Model_Pkmn::find($id)
 				));
 	}
 	public function get_text()

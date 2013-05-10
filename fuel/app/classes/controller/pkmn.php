@@ -21,17 +21,16 @@ class Controller_Pkmn extends Controller_Template
 
 
 	
-	public function action_adjust($id)
+	public function action_adjust()
 	{
 		echo Asset::js('jquery-1.9.1.js');
 		echo Asset::js('highchart/highcharts.js');
 		echo Asset::js('highchart/highcharts-more.js');
-		echo Asset::js('guid.js');
-		
+		echo Asset::js('guid.js');		
 		$data=array();
-		$data['content']=Model_Mnst::find($id);
-// 		$this->template->title = 'Pkmn &raquo; List';
-		$this->template->title = $data["content"]->id;
+		$data["ix"]="";
+			
+		$this->template->title = '';
 		$this->template->content = View::forge('pkmn/adjust',$data);
 	}
 	public function action_detail($id)

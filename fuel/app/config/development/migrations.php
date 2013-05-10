@@ -12,6 +12,8 @@ return array(
 				3 => '004_create_mnsts',
 				4 => '005_create_pkmns',
 				5 => '006_create_eggs',
+				6 => '007_create_peronalities',
+				7 => '008_create_abilities',
 			),
 		),
 		'module' => 
