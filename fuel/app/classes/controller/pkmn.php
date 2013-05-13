@@ -5,7 +5,14 @@ class Controller_Pkmn extends Controller_Template
 
 	public function action_list()
 	{
+		echo Asset::js('jquery-1.9.1.js');
+		echo Asset::js('jquery.mobile-1.3.1.js');
+		echo Asset::css('jquery.mobile-1.3.1.css');
+		$this->template->title = '';
+		$data=array('list' => Model_Pkmn::listed());
+		$this->template->content = View::forge('pkmn/list',$data);		
 	}
+	
 	public function action_stat($id)
 	{
 		$data=array();
@@ -18,7 +25,6 @@ class Controller_Pkmn extends Controller_Template
 		$this->template->title = 'Pkmn &raquo; stat Test';
 		$this->template->content = View::forge('pkmn/stat',$data);		
 	}
-
 
 	
 	public function action_adjust()

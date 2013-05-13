@@ -128,13 +128,13 @@ function updateTable(){
 
 	globals["tmp"]=[
 	            	parseInt($("#resH").html()),   	            			
-	    	        parseInt($("#resB").html()),
 	    	        parseInt($("#resA").html()),
-	    	        parseInt($("#resS").html()),
+	    	        parseInt($("#resB").html()),
 	    	        parseInt($("#resC").html()),
-	    	        parseInt($("#resD").html())];
+	    	        parseInt($("#resD").html()),
+         	        parseInt($("#resS").html())];
 	var highchart=$('#container').highcharts();
-//	highchart.showLoading();	
+
 	highchart.series[0].setData(globals["tmp"], true);	
 	highchart.hideLoading();
 }
@@ -171,60 +171,27 @@ function onSelectedPkmn(no)
 
 <script>//chart
 function chart(){
-var legends=['H','B','A','S','C','D'];
+var legends=['H','A','B','C','D','S'];
+
 var dataset=[100,136,80,90,80,80];
 var pname='sample';
  new Highcharts.Chart({        
     chart: { 
-	    polar:true,
+        type:'bar',
+        inverted:true,
     	renderTo:'container',
     },
     legend: { enabled: false},
     title: { text: pname},	    	    
-    pane: {
-        startAngle: 0,
-        endAngle: 360
+    xAxis:{ 	categories:legends},
+    yAxis:{
+        min:0,
+        max:240
     },
-    xAxis: {
-	    tickInterval: 60,
-        min: 0,
-        max: 360,
-        labels:{
-        	formatter:function(){
-	        	return legends[(this.value/60)];
-        	}
-        }
-    },	        
-    
-    yAxis: {
-	    tickInterval:50,
-        min: 0,
-        max:150,
-	 },	    
-    tooltip: {        
-    	formatter: function () {
-			return 	'<b>' + 
-						this.series.name + '</b><br/>' +
-						legends[(((this.x +30+360)%360) /60)] + ': ' + this.y ;                        
-           }
-     },
-                
-    plotOptions: {
-        series: {
-            pointStart: -30,
-            pointInterval: 60
-        },
-        column: {
-            pointPadding: 0,
-            groupPadding: 0
-        }
-    },
-    
     series: [{
-        type: 'column',
+        type: 'bar',
         name: pname,
         data: dataset,
-        pointPlacement: 'between'
     }],
 });
 }

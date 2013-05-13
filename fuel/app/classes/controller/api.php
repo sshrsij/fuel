@@ -11,6 +11,19 @@ class Controller_api extends Controller_Rest
 						'val' => Model_Peronality::find('all')
 				));
 	}
+	public function get_ability()
+	{
+		$this->response(array(
+				'val' => Model_Ability::find('all')
+				));
+	}
+	
+	public function get_abilitybyid($id)
+	{
+		$res=array('val' => Model_Ability::find($id));	
+		$this->response($res);
+	}
+	
 	public function get_pkmnall()
 	{
 		$this->response(
@@ -18,6 +31,7 @@ class Controller_api extends Controller_Rest
 						'val' => Model_Pkmn::find('all')
 				));
 	}
+
 	public function get_pkmnbyid($id)
 	{
 		$this->response(
@@ -25,6 +39,17 @@ class Controller_api extends Controller_Rest
 						'val' => Model_Pkmn::find($id)
 				));
 	}
+	
+	public function get_skills($no)
+	{
+		$this->response(
+				array(
+						'val' => Model_Learning::find(
+								'all',
+								array( 'where' => array(array('no',$no)) )
+		)));
+	}
+	
 	public function get_text()
 	{
 		$internal=mb_internal_encoding();		
