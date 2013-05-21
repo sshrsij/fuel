@@ -14,11 +14,11 @@ return array(
 				'profiling' => 'true',
 				'table_prefix' =>'',
 				'connection'  => array(
-						'database'   => 'cidb',						
+						'database'   => 'dbdb',						
 						'hostname'        => 'localhost',
 //						'dsn'        => 'mysql:host=localhost;dbname=cidb',
-						'username'   => 'test',
-						'password'   => 'Zxcvbnm,',
+						'username'   => 'player',
+						'password'   => 'Zxcvbnm,.',
 				),
 		),
 		// 		'dev'=> array(

@@ -29,7 +29,8 @@ class Controller_Pkmn extends Controller_Template
 		echo Asset::js('jquery-1.9.1.js');
 		echo Asset::js('jquery.mobile-1.3.1.js');
 		echo Asset::css('jquery.mobile-1.3.1.css');
-		$this->template->content = View::forge('pkmn/status');
+		$data=array();
+		$this->template->content = View::forge('pkmn/status',$data);
 	}
 
 }

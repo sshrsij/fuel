@@ -1,0 +1,6 @@
+<?php defined('COREPATH') or exit('No direct script access allowed'); ?>
+
+ERROR - 2013-05-21 18:02:20 --> Error - Migration "C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\migrations/007_create_personalities.php" does not contain expected class "Fuel\Migrations\Create_personalities" in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\core\classes\migrate.php on line 448
+ERROR - 2013-05-21 18:02:51 --> Error - Migration "C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\migrations/007_create_personalities.php" does not contain expected class "Fuel\Migrations\Create_personalities" in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\core\classes\migrate.php on line 448
+ERROR - 2013-05-21 18:03:35 --> Error - Migration "C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\migrations/007_create_personalities.php" does not contain expected class "Fuel\Migrations\Create_personalities" in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\core\classes\migrate.php on line 448
+ERROR - 2013-05-21 18:04:14 --> Error - Migration "C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\migrations/007_create_personalities.php" does not contain expected class "Fuel\Migrations\Create_personalities" in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\core\classes\migrate.php on line 448

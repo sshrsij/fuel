@@ -2,11 +2,11 @@
 
 namespace Fuel\Migrations;
 
-class Create_peronalities
+class Create_personalities
 {
 	public function up()
 	{
-		\DBUtil::create_table('peronalities', array(
+		\DBUtil::create_table('personalities', array(
 			'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
 			'name' => array('constraint' => 50, 'type' => 'varchar'),
 			'A' => array('constraint' => 11, 'type' => 'int'),
