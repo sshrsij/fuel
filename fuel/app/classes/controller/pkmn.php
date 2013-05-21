@@ -28,8 +28,15 @@ class Controller_Pkmn extends Controller_Template
 		$this->template->title = '';
 		echo Asset::js('jquery-1.9.1.js');
 		echo Asset::js('jquery.mobile-1.3.1.js');
+		echo Asset::js('highchart/highcharts.js');
+		echo Asset::js('highchart/highcharts-more.js');
+		echo Asset::js('polarchart.js');
 		echo Asset::css('jquery.mobile-1.3.1.css');
-		$data=array();
+		
+		$data=array();		
+		$pkmn=  Model_Pkmn::oneByNo($no);
+		$data['pkmn']=$pkmn;
+		$data['head']='Detail::'.  urlencode($pkmn['name']);
 		$this->template->content = View::forge('pkmn/status',$data);
 	}
 
