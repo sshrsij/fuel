@@ -16,6 +16,7 @@ return array(
 				7 => '008_create_abilities',
 				8 => '009_create_learnhows',
 				9 => '010_create_ptypes',
+				10 => '011_create_skills',
 			),
 		),
 		'module' => 

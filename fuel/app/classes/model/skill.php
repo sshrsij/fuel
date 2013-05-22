@@ -1,11 +1,19 @@
 <?php
 
-class Model_Ability extends \Orm\Model
+class Model_Skill extends \Orm\Model
 {
 	protected static $_properties = array(
 		'id',
 		'name',
-		'detail',
+		'power',
+		'hit',
+		'pp',
+		'ptype',
+		'skilltype',
+		'touch',
+		'range',
+		'effect',
+		'memo'
 	);
 
 	protected static $_observers = array(

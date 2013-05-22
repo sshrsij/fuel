@@ -30,7 +30,9 @@ class Controller_Pkmn extends Controller_Template
 		echo Asset::js('jquery.mobile-1.3.1.js');
 		echo Asset::js('highchart/highcharts.js');
 		echo Asset::js('highchart/highcharts-more.js');
+		//echo Asset::js('jquery.tmpl.min.js');
 		echo Asset::js('polarchart.js');
+		
 		echo Asset::css('jquery.mobile-1.3.1.css');
 		
 		$data=array();		

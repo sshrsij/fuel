@@ -1,86 +1,58 @@
 <?php
 
-class Controller_api extends Controller_Rest
-{
-	protected $format='json';
+class Controller_api extends Fuel\Core\Controller_Rest {
 
-	public function get_personalityall()
-	{
-		$this->response(
-				array(
-						'val' => Model_Peronality::find('all')
-				));
-	}
-	public function get_ability()
-	{
-		$this->response(array(
-				'val' => Model_Ability::find('all')
-		));
-	}
+    protected $format = 'json';
+    public function get_pkAbilities($no) {
+	$qstring='select 
+	    a1.id as a1id, a1.name as a1name, a1.detail as a1text,
+	    a2.id as a2id, a2.name as a2name, a2.detail as a2text,	    
+	    a3.id as a3id, a3.name as a3name, a3.detail as a3text	    
+	    from pkmns 
+	    left join Abilities as a1 on a1.id = pkmns.skill1 
+	    left join Abilities as a2 on a2.id = pkmns.skill2 
+	    left join Abilities as a3 on a3.id = pkmns.skill3 	    
+	    where pkmns.id = :number
+	    ';
+	$query = DB::query($qstring);	
+	$query->bind('number',$no);
+	$resultArray=$query->execute()->as_array();
+	$res=$resultArray[0];
+	$this->response(array(
+	    'Ability1' => array(
+		'id'=>$res['a1id'],
+		'name'=>$res['a1name'],
+		'text'=>$res['a1text']
+		),
+	    'Ability2' => array(
+		'id'=>$res['a2id'],
+		'name'=>$res['a2name'],
+		'text'=>$res['a2text']
+		),
+	    'Ability3' => array(
+		'id'=>$res['a3id'],
+		'name'=>$res['a3name'],
+		'text'=>$res['a3text']
+		)	    
+	    ));
+    }
 
-	public function get_abilitybyid($id)
-	{
-		$res=array('val' => Model_Ability::find($id));
-		$this->response($res);
-	}
-
-	public function get_pkmnall()
-	{
-		$this->response(
-				array(
-						'val' => Model_Pkmn::listed()
-				));
-	}
-
-	public function get_pkmnbyid($id)
-	{
-		$this->response(
-				array(
-						'val' => Model_Pkmn::find($id)
-				));
-	}
-
-	public function get_skills($no)
-	{
-		$this->response(
-				array(
-						'val' => Model_Learning::find(
-								'all',
-								array( 'where' => array(array('no',$no)) )
-						)));
-	}
-
-	public function get_text()
-	{
-		$internal=mb_internal_encoding();
-		$result=array();
-		$ary=array('–kŠC“¹','ÂXŒ§','ŠâŽèŒ§','‹{éŒ§','H“cŒ§','ŽRŒ`Œ§','•Ÿ“‡Œ§',
-				'“Œ‹ž“s','_“ÞìŒ§','é‹ÊŒ§','ç—tŒ§','ˆïéŒ§','“È–ØŒ§','ŒQ”nŒ§','ŽR—œŒ§',
-				'VŠƒŒ§','’·–ìŒ§','•xŽRŒ§','ÎìŒ§','•ŸˆäŒ§','ˆ¤’mŒ§','Šò•ŒŒ§','Ã‰ªŒ§',
-				'ŽOdŒ§','‘åã•{','•ºŒÉŒ§','‹ž“s•{','Ž ‰êŒ§','“Þ—ÇŒ§','˜a‰ÌŽRŒ§',
-				'’¹ŽæŒ§','“‡ªŒ§','‰ªŽRŒ§','L“‡Œ§','ŽRŒûŒ§',
-				'“¿“‡Œ§','ìŒ§','ˆ¤•QŒ§','‚’mŒ§',
-				'•Ÿ‰ªŒ§','²‰êŒ§','’·èŒ§','ŒF–{Œ§','‘å•ªŒ§','‹{èŒ§','Ž­Ž™“‡Œ§','‰«“êŒ§');
-		mb_convert_variables($internal,"ASCII,UTF-8,SJIS-win",$ary);
-		
-		//ƒNƒGƒŠˆ—
-		$querystring=Input::get('q');
-		if(! isset($querystring))
-		{
-			$result=$ary;
-		}
-		else
-		{
-			mb_convert_variables($internal,"ASCII,UTF-8,SJIS-win",$querystring);
-			foreach($ary as $itr)
-			{
-				if( strlen(strstr($itr,$querystring)) >0 ){
-					$result[]=$itr;
-				}
-			}
-		}
-		mb_convert_variables($internal,"ASCII,UTF-8,SJIS-win",$result);
-		$this->response($result);
-	}
-
+    public function get_pkSkills($no){
+	$qstring="
+	    SELECT sk.id AS sid, sk.name AS Name,
+	    sk.power, sk.hit, sk.pp, sk.ptype, sk.skilltype,
+	    sk.touch, sk.range, sk.effect, sk.memo, 
+	    pt.id AS pid, pt.name AS type,
+	    lh.lv, lh.wayto as how
+	    FROM skills AS sk, ptypes AS pt, learnhows AS lh 
+	    WHERE lh.no =:number 
+	    AND pt.id = sk.ptype 
+	    AND lh.skill = sk.id";
+	$query = DB::query($qstring);	
+	$query->bind('number',$no);
+	$resultArray=$query->execute()->as_array();
+	$this->response($resultArray);	
+    }
 }
+
+?>

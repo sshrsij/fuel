@@ -9,7 +9,7 @@ class Create_abilities
 		\DBUtil::create_table('abilities', array(
 			'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
 			'name' => array('constraint' => 50, 'type' => 'varchar'),
-
+			'detail' => array('type' => 'text'),
 		), array('id'));
 	}
 
