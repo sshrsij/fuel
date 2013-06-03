@@ -19,7 +19,7 @@
 	    <div data-role="content">	
 		<div data-role="collapsible-set">
 		    <div data-role="collapsible"  data-content-theme="c">
-			<h3>stat</h3>			
+			<h3>Status</h3>			
 			<fieldset class="ui-grid-e ui-collapsible">
 			    <div id="container" class="ui-block-a" style="width:200px; height: 200px;"></div>		    
 			    <div class="ui-block-b ">
@@ -97,6 +97,8 @@
 	globals.readSkill = true;
 
 	$(function() {
+	        console.log(decodeURIComponent("<?php echo $head;?>"));
+
 	    var status;
 <?php
 echo sprintf(
@@ -104,10 +106,8 @@ echo sprintf(
 ?>
 	    var target = '#container';
 	    var option = {legend: ['H', 'A', 'B', 'C', 'D', 'S']};
-	    /*チャート描画*/
 	    drawPolarchart(target, status, option);
 
-	    /*アコーディオンを気持ちよく*/
 	    $(document).on('expand', '.ui-collapsible', function(event) {
 		$(this).children().next().hide();
 		$(this).children().next().slideDown(200);
@@ -115,20 +115,17 @@ echo sprintf(
 	    $(document).on('collapse', '.ui-collapsible', function(event) {
 		$(this).children().next().slideUp(200);
 	    });
-	    /*読み出し開始*/
+
 	    $(document).on('expand', '#AbilityPane', function(ev) {
 		OnExpandAbility();
 	    });
 	    $(document.body).on('expand', '#SkillPane', function(ev) {
 		OnExpandSkill();
 	    });
-//	    $('#AbilityPane').on('expand', OnExpandAbility());
-//	    $('#SkillPane').on('expand', OnExpandSkill());
 
 	    globals.readAbility = false;
 	    globals.readSkill = false;
 	});
-
 
 	/*read ability*/
 	function OnExpandAbility() {
@@ -137,19 +134,19 @@ echo sprintf(
 	    }
 	    $.ajax({
 		type: 'GET',
-		url: "/fuel/public/api/pkAbilities/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
+		url: "/public/api/pkAbilities/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
 		success: function(msg) {
-		    $("#A1name").append("<p>" + msg.Ability1.name + "</p>");
-		    $("#A1text").append("<p>" + msg.Ability1.text + "</p>");
-		    $("#A2name").append("<p>" + msg.Ability2.name + "</p>");
-		    $("#A2text").append("<p>" + msg.Ability2.text + "</p>");
-		    $("#A3name").append("<p>" + msg.Ability3.name + "</p>");
-		    $("#A3text").append("<p>" + msg.Ability3.text + "</p>");
+		    $("#A1name").append("<p>" + msg.ability1.name + "</p>");
+		    $("#A1text").append("<p>" + msg.ability1.text + "</p>");
+		    $("#A2name").append("<p>" + msg.ability2.name + "</p>");
+		    $("#A2text").append("<p>" + msg.ability2.text + "</p>");
+		    $("#A3name").append("<p>" + msg.ability3.name + "</p>");
+		    $("#A3text").append("<p>" + msg.ability3.text + "</p>");
 		    globals.readAbility = true;
 		},
-		error: function(msg) {
-		    alert(msg);
-		    globals.readAbility = false;
+		error: function(request, status, thrown) {
+		    alert(request+"->"+ status +" : "+thrown);
+		    globals.readSkill = false;
 		}
 	    });
 	    return true;
@@ -163,13 +160,13 @@ echo sprintf(
 	    }
 	    $.ajax({
 		type: 'GET',
-		url: "/fuel/public/api/pkSkills/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
+		url: "/public/api/pkSkills/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
 		success: function(msg) {
 		    AppendSkillData(msg);
 		    globals.readSkill = true;
 		},
-		error: function(msg) {
-		    alert(msg);
+		error: function(request, status, thrown) {
+		    alert(request+"->"+ status +" : "+thrown);
 		    globals.readSkill = false;
 		}
 	    });
@@ -180,21 +177,23 @@ echo sprintf(
 	/*skill data*/
 	function AppendSkillData(msg) {
 	    $('#SkillData').children().remove();
-	    /*templateにしたい。せめてフォーマット処理かけたい*/
-	    var jqtable = $('<table data-role="table" class="ui-responsive  table-stroke table-stripe" data-mode="reflow" id="jqtable"/>');
+
+	    var jqtable =
+		    $('<table data-role="table" id="jqtable"  class="ui-responsive table-stroke table-stripe ui-table" data-mode="reflow"  />');
 	    var header = $('<tr/>');
 
 	    var ary = [
 		"lv", "how", "Name",
 		"type", "power", "hit", "pp",
 		"skilltype", "touch", "range", "memo"];
-	    var cnt = 0;
+
 	    ary.forEach(function(head) {
-		++cnt;
-		header.append("<th data-priority=" + cnt + ">" + head + "</th>");
+		header.append("<th>" + head + "</th>");
 	    });
 	    $('#SkillData').append(jqtable);
 	    jqtable.append(header);
+
+
 	    msg.forEach(function(data) {
 		var elem = $('<tr/>');
 		ary.forEach(function(head) {
@@ -206,6 +205,7 @@ echo sprintf(
 			elem.append("<td>" + tmpval + "</th>");
 			return;
 		    }
+
 		    elem.append("<td>" + data[head] + "</th>");
 		});
 		jqtable.append(elem);

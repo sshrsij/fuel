@@ -16,9 +16,12 @@ class Controller_Pkmn extends Controller_Template
 	
 	public function action_list()
 	{
+	    
 		echo Asset::js('jquery-1.9.1.js');
 		echo Asset::js('jquery.mobile-1.3.1.js');
 		echo Asset::css('jquery.mobile-1.3.1.css');
+		
+		/*model取得*/
 		$this->template->title = '';
 		$this->template->content = View::forge('pkmn/list');
 	}
@@ -30,16 +33,22 @@ class Controller_Pkmn extends Controller_Template
 		echo Asset::js('jquery.mobile-1.3.1.js');
 		echo Asset::js('highchart/highcharts.js');
 		echo Asset::js('highchart/highcharts-more.js');
-		//echo Asset::js('jquery.tmpl.min.js');
 		echo Asset::js('polarchart.js');
 		
 		echo Asset::css('jquery.mobile-1.3.1.css');
-		
 		$data=array();		
+			    
+
+			    
 		$pkmn=  Model_Pkmn::oneByNo($no);
+		var_dump($pkmn);
 		$data['pkmn']=$pkmn;
-		$data['head']='Detail::'.  urlencode($pkmn['name']);
+//		$data['head']='Detail::'.($pkmn['name']);
+		$data['head']=($pkmn['name']);		
 		$this->template->content = View::forge('pkmn/status',$data);
 	}
 
+	public function action_stat($no=1){
+	  $this->template->content = \Fuel\Core\ViewModel::forge('pkmn/stat');
+	}
 }

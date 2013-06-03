@@ -187,6 +187,7 @@ class Database_MySQL_Connection extends \Database_Connection
 		{
 			// PHP is compiled against MySQL 5.x
 			$status = mysql_set_charset($charset, $this->_connection);
+			
 		}
 
 		if ($status === false)

@@ -196,7 +196,6 @@ class Database_MySQLi_Connection extends \Database_Connection
 		// Make sure the database is connected
 		$this->_connection or $this->connect();
 		$status = $this->_connection->set_charset($charset);
-
 		if ($status === false)
 		{
 			throw new \Database_Exception($this->_connection->error, $this->_connection->errno);
