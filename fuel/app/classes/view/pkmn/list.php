@@ -1,10 +1,10 @@
 <?php
 
-class View_Mnst_list extends \Fuel\Core\ViewModel {
+class View_Pkmn_list extends \Fuel\Core\ViewModel {
 
     protected $per_page = 50;
     protected $num_link = 3;
-    protected $rootURL = "/fuel/public/mnst";
+    protected $rootURL = "/public/pkmn";
 
     public function view() {
 	echo \Fuel\Core\Asset::js('jquery-1.9.1.js');
@@ -32,9 +32,7 @@ class View_Mnst_list extends \Fuel\Core\ViewModel {
 	$this->pklist = array_splice($list, $offset, $this->per_page);
 	$this->config = $config;
 	$this->head = "list";
-	$this->rowfunc = function($data, $column) {
-		    return $this->rowElement($data, $column);
-		};
+	$this->rowfunc = function($data, $column) {   return  $this->rowElement($data, $column);};
     }
 
     protected function rowElement($data, $column) {

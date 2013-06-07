@@ -28,7 +28,6 @@
 			$header = array("no", "name", "type1", "type2", "ability1", "ability2", "ability3", "egg1", "egg2");
 			$tmpcnt=0;
 			foreach ($header as $hd) {
-			    
 			    echo sprintf('<th data-priority="%d">%s</th>',++$tmpcnt,$hd);
 			}
 			?>

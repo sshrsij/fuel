@@ -23,15 +23,12 @@ class Controller_api extends Fuel\Core\Controller_Rest {
 	$this->response(array(
 	    'ability1' => array(
 		'id' => $res['a1id'],
-//		'name' => ['a1name'],
-		'name' => "しんりょく" === $res['a1name'],
+		'name' =>$res['a1name'],
 		'text' => $res['a1text']
 	    ),
 	    'ability2' => array(
 		'id' => $res['a2id'],
-//      'name' => $res['a2name'],
-//		'name' => mb_convert_encoding($res['a2name'],'UTF-8','AUTO'),
-		'name' => bin2hex($res['a2name']),
+		'name' => $res['a2name'],
 		'text' => $res['a2text']
 	    ),
 	    'ability3' => array(
@@ -83,15 +80,17 @@ class Controller_api extends Fuel\Core\Controller_Rest {
     }
 
     public function get_echo($msg = null) {
-	$this->response(($msg === null) ? "null" : $msg );
+	$this->response(($msg === null) ? '' : $msg );
     }
 
     public function get_one($no = 1) {
-//	$this->response(Model_Pkmn::findsBy($no));
 	$one=Model_Pkmn::oneByNo($no);
 	$this->response($one);	
     }
 
+    public function get_skillname($name=""){
+	$this->response(Model_Pkmn::findsBySkill($id));
+    }
 }
 
 ?>

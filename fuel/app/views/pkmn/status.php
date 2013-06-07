@@ -23,9 +23,12 @@
 			<fieldset class="ui-grid-e ui-collapsible">
 			    <div id="container" class="ui-block-a" style="width:200px; height: 200px;"></div>		    
 			    <div class="ui-block-b ">
+				<div id="pkimg"></div>
+			    </div>
+			    <div class="ui-block-c ">
 				<div class="ui-bar ui-bar-e marginbar">
 				    <?php
-				    echo sprintf('<h2 id="pname">%s</h2>' . PHP_EOL, urlencode($pkmn['name']));
+				    echo sprintf('<h2 id="pname">%s</h2>' . PHP_EOL, ($pkmn['name']));
 				    echo sprintf('<p id="statusH">H:%s</p>' . PHP_EOL, $pkmn['H']);
 				    echo sprintf('<p id="statusA">A:%s</p>' . PHP_EOL, $pkmn['A']);
 				    echo sprintf('<p id="statusB">B:%s</p>' . PHP_EOL, $pkmn['B']);
@@ -35,12 +38,12 @@
 				    ?>
 				</div>
 			    </div>
-			    <div class="ui-block-c">
+			    <div class="ui-block-d">
 				<div class="ui-bar ui-bar-e marginbar">				
 				    <h2>Type</h2>
 				    <?php
-				    echo sprintf('<p id="ptype1">type1:%s</p>' . PHP_EOL, urlencode($pkmn['type1']));
-				    echo sprintf('<p id="ptype2">type2:%s</p>' . PHP_EOL, urlencode($pkmn['type2']));
+				    echo sprintf('<p id="ptype1">type1:%s</p>' . PHP_EOL, ($pkmn['type1']));
+				    echo sprintf('<p id="ptype2">type2:%s</p>' . PHP_EOL, ($pkmn['type2']));
 				    ?>	
 				</div>
 			    </div>
@@ -48,8 +51,8 @@
 				<div class="ui-bar ui-bar-e marginbar">				    
 				    <h2>Egg</h2>
 				    <?php
-				    echo sprintf('<p id="etype1">egg-type1:%s</p>' . PHP_EOL, urlencode($pkmn['egg1']));
-				    echo sprintf('<p id="etype2">egg-type2:%s</p>' . PHP_EOL, urlencode($pkmn['egg2']));
+				    echo sprintf('<p id="etype1">egg-type1:%s</p>' . PHP_EOL, trim($pkmn['egg1']));
+				    echo sprintf('<p id="etype2">egg-type2:%s</p>' . PHP_EOL, trim($pkmn['egg2']));
 				    ?>	
 				</div>
 			    </div>
@@ -97,8 +100,6 @@
 	globals.readSkill = true;
 
 	$(function() {
-	        console.log(decodeURIComponent("<?php echo $head;?>"));
-
 	    var status;
 <?php
 echo sprintf(
@@ -125,6 +126,25 @@ echo sprintf(
 
 	    globals.readAbility = false;
 	    globals.readSkill = false;
+
+	    $.ajax({
+		type: "GET",
+		dataType: 'jsonp',
+		url: "http://ajax.googleapis.com/ajax/services/search/images?q=<?php echo urlencode($pkmn['name']); ?>&v=1.0",
+		success: function(msg) {
+		    console.log(msg);
+
+		    var src = msg.responseData.results[0].unescapedUrl;
+		    for (var idx = 0; idx < msg.responseData.results.length; idx++) {
+			if (msg.responseData.results[idx].unescapedUrl.indexOf("blog") < 0) {
+			    src = msg.responseData.results[idx].unescapedUrl;
+			}
+		    }
+
+		    console.log(src);
+		    $("#pkimg").append($(document.createElement("img")).attr("src", src).attr('width', "200"));
+		}
+	    });
 	});
 
 	/*read ability*/
@@ -134,18 +154,32 @@ echo sprintf(
 	    }
 	    $.ajax({
 		type: 'GET',
+//		url: "/fuel/public/api/pkAbilities/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
 		url: "/public/api/pkAbilities/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
 		success: function(msg) {
+
 		    $("#A1name").append("<p>" + msg.ability1.name + "</p>");
-		    $("#A1text").append("<p>" + msg.ability1.text + "</p>");
-		    $("#A2name").append("<p>" + msg.ability2.name + "</p>");
-		    $("#A2text").append("<p>" + msg.ability2.text + "</p>");
-		    $("#A3name").append("<p>" + msg.ability3.name + "</p>");
-		    $("#A3text").append("<p>" + msg.ability3.text + "</p>");
+
+		    if (msg.ability1.text !== null) {
+			$("#A1text").append("<p>" + msg.ability1.text + "</p>");
+		    }
+		    if (msg.ability2.name !== null) {
+			$("#A2name").append("<p>" + msg.ability2.name + "</p>");
+		    }
+		    if (msg.ability2.text !== null) {
+			$("#A2text").append("<p>" + msg.ability2.text + "</p>");
+		    }
+		    if (msg.ability3.name !== null) {
+			$("#A3name").append("<p>" + msg.ability3.name + "</p>");
+		    }
+		    if (msg.ability3.text !== null) {
+			$("#A3text").append("<p>" + msg.ability3.text + "</p>");
+		    }
 		    globals.readAbility = true;
-		},
+		}
+		,
 		error: function(request, status, thrown) {
-		    alert(request+"->"+ status +" : "+thrown);
+		    alert(request + "->" + status + " : " + thrown);
 		    globals.readSkill = false;
 		}
 	    });
@@ -160,13 +194,14 @@ echo sprintf(
 	    }
 	    $.ajax({
 		type: 'GET',
+//		url: "/fuel/public/api/pkSkills/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
 		url: "/public/api/pkSkills/" +<?php echo sprintf('%s', $pkmn['pid']); ?>,
 		success: function(msg) {
 		    AppendSkillData(msg);
 		    globals.readSkill = true;
 		},
 		error: function(request, status, thrown) {
-		    alert(request+"->"+ status +" : "+thrown);
+		    alert(request + "->" + status + " : " + thrown);
 		    globals.readSkill = false;
 		}
 	    });

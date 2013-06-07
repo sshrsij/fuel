@@ -51,3 +51,24 @@ ERROR - 2013-06-03 17:21:56 --> Error - Call to undefined function where_open() 
 ERROR - 2013-06-03 17:33:54 --> 8 - Undefined variable: content in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\views\template.php on line 33
 ERROR - 2013-06-03 17:44:29 --> 8 - Undefined variable: content in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\views\mnst\status.php on line 1
 ERROR - 2013-06-03 17:46:03 --> 8 - Undefined variable: content in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\views\mnst\status.php on line 1
+ERROR - 2013-06-03 18:26:25 --> 1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 17 [ select pk.no, pk.name as name, 	    
+	    pk.H,pk.A,pk.B,pk.C,pk.D,pk.S, 
+	    pk.id as pid,
+	    p1.name as type1, p2.name as type2, 
+	    p1.id as t1id, p2.id as t2id,
+	    a1.name as ability1, a2.name as ability2, a3.name as ability3, 
+	    a1.id as a1id, a2.id as a2id, a3.id as a3id, 
+	    e1.name as egg1, e2.name as egg2, 
+	    e1.id as e1id , e2.id as e2id
+	    from pkmns as pk 
+	    left join abilities as a1 on a1.id = pk.skill1 
+	    left join abilities as a2 on a2.id = pk.skill2 
+	    left join abilities as a3 on a3.id = pk.skill3 
+	    left join eggs as e1 on e1.id = pk.egg1 
+	    left join eggs as e2 on e2.id = pk.egg2 
+	    left join ptypes as p1 on p1.id = pk.type1 
+	    left join ptypes as p2 on p2.id = pk.type2 where pkmns.id in (SELECT distinct no FROM `learnhows` WHERE skill='3' ] in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\core\classes\database\mysql\connection.php on line 236
+ERROR - 2013-06-03 19:10:27 --> Error - Class 'Viewmodel' not found in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\classes\view\mnst\status.php on line 3
+ERROR - 2013-06-03 19:10:31 --> Error - Class 'Viewmodel' not found in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\classes\view\mnst\status.php on line 3
+ERROR - 2013-06-03 19:10:36 --> Error - Class 'Viewmodel' not found in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\classes\view\mnst\status.php on line 3
+ERROR - 2013-06-03 19:55:39 --> Error - Call to undefined method View_Mnst_status::set_safe() in C:\Users\hishita\Documents\xampp\htdocs\fuel\fuel\app\classes\view\mnst\status.php on line 9

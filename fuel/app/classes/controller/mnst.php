@@ -9,7 +9,7 @@ class Controller_Mnst extends Controller_Template {
 
     public function action_status() {
 	$this->template->title = 'Mnst &raquo; Status';
-	$this->template->content = View::forge('mnst/status');
+	$this->template->content =  \Fuel\Core\ViewModel::forge('mnst/status');
     }
 
     public function action_list() {
@@ -23,12 +23,13 @@ class Controller_Mnst extends Controller_Template {
 	if (!is_null(Fuel\Core\Input::get("ability"))) {
 	    $param["ability"] = Fuel\Core\Input::get("ability");
 	}
+
+	///0以上に修正
 	$pagenum = ( is_null(Fuel\Core\Input::get("p")) ) ? 1 : Fuel\Core\Input::get("p");
+
 	$this->template->title = '';
-	$this->template->content = \Fuel\Core\ViewModel::forge('mnst/list');	
-	$this->template->content->set('data',
-		array( 'pagenum' => $pagenum, 'params'=> $param)
-	);
+	$this->template->content = \Fuel\Core\ViewModel::forge('mnst/list');
+	$this->template->content->set('data', array('pagenum' => $pagenum, 'params' => $param));
     }
 
     public function action_search() {

@@ -105,4 +105,14 @@ class Model_Pkmn extends \Orm\Model {
 	return $array[0];
     }
 
+    public static function findsBySkill($skillname="たいあたり"){
+	$subq=' where pk.id in (
+		SELECT distinct learnhows.no FROM learnhows WHERE learnhows.skill=
+		(SELECT skills.id FROM skills WHERE skills.name=:value)
+	)';
+	$query = DB::query(self::$jointQuery .$subq);
+	$query->bind("value", $skillname);
+	$array = $query->execute()->as_array();
+	return $array;
+    }
 }
